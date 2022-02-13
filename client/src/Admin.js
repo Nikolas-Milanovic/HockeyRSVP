@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ListEmails from "./components/ListEmails.js";
+import SendEmail from "./components/SendEmails.js";
 
 const Admin = () => {
   const [email, setEmail] = useState("");
@@ -43,6 +44,7 @@ const Admin = () => {
         </form>
 
         <ListEmails />
+        <SendEmail />
       </div>
     </div>
   );
