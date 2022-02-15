@@ -1,12 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ListEmails from "./components/ListEmails.js";
-import SendEmail from "./components/SendEmails.js";
+
 
 const Admin = () => {
   const [email, setEmail] = useState("");
+  const [players, setPlayers] = useState([]);
+
+  const getPlayers = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/players");
+      const jsonData = await response.json();
+
+      console.log(jsonData);
+      setPlayers(jsonData);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
+    if(!validation()){
+        return;
+    }
 
     try {
       const status = "Pending Response";
@@ -22,11 +38,30 @@ const Admin = () => {
 
       console.log(JSON.stringify(default_status));
       console.log(JSON.stringify(body));
+      window.location = "/admin";
       //fetch call
     } catch (err) {
       console.log(err.message);
     }
   };
+
+  const validation = () => {
+      for(var i=0;i<players.length;i++){
+          if(players[i].email === email){
+              alert("\nINVALID ENTRY! \n \nYou entered an email that already exists")
+              return(
+                  false
+              )
+          }
+      }
+      return(true)
+  }
+
+
+  useEffect(() => {
+    getPlayers();
+  }, []);
+
 
   return (
     <div className="row d-flex justify-content-center flex-nowrap">
@@ -42,9 +77,7 @@ const Admin = () => {
           ></input>
           <button className="btn btn-success">Add</button>
         </form>
-
-        <ListEmails />
-        <SendEmail />
+        <ListEmails props={players}/>
       </div>
     </div>
   );

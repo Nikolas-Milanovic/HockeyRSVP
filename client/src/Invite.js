@@ -1,9 +1,12 @@
 import { useState, useEffect, setState} from "react";
+import ListPlayers from "./components/ListPlayers.js";
 
 const Invite = () => {
   
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
+  const [skipCount, setSkipCount] = useState(0);
+
 
 
   const getURLParams = () => {
@@ -31,10 +34,9 @@ const Invite = () => {
 
   const updateStatus = async () => {
     try {
-      console.log("button click");
-
-      const body = { status };
-      console.log(body);
+      const body = {status}
+    //   console.log(status);
+    //   console.log(body);
       const response = await fetch(
         `http://localhost:5000/players/${email}`,
         {
@@ -43,10 +45,13 @@ const Invite = () => {
           body: JSON.stringify(body)
         }
       );
+      window.location = `/invite/?email=${email}`;
     } catch (err) {
       console.error(err.message);
     }
   };
+
+
 
   useEffect(() => {
     getURLParams();
@@ -55,23 +60,26 @@ const Invite = () => {
   useEffect(() => {
     getPlayer();
   }, [email]);
-  
 
-  useEffect(()=>{
-    updateStatus();
-  }, [status]);
+  useEffect(() => {
+    if (skipCount <= 2) setSkipCount(skipCount+1);
+    if (skipCount > 2){
+        updateStatus();
+    };
+}, [status])
 
   return (
     <div className="row d-flex justify-content-center flex-nowrap">
-      <div className="flex-column">
-        <h1 className="text-center mb-5 mt-5">Invite For, {email}</h1>
-        <div className="">
+      <div className="w-50">
+        <h1 className="text-center mb-5 mt-5">Invite for: <i>{email}</i></h1>
+        <div className="text-center">
           <button
             type="button"
             className={`btn btn-outline-success m-1 ${status === "Attending" ? "active" : ""}`}
-            onClick={e => {
-                setStatus("Attending");
-            }}
+            onClick = {e =>(
+                setStatus("Attending")
+            )
+            }
           >
             Attending
           </button>
@@ -94,7 +102,8 @@ const Invite = () => {
             Not Attending
           </button>
         </div>
-      </div>
+        <ListPlayers />
+      </div>    
     </div>
   );
 };
