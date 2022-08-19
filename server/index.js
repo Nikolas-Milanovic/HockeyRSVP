@@ -39,6 +39,14 @@ app.get("/players", async(req,res) =>{
     }
 })
 
+app.get('/test',(reg,res)=>{
+    res.status(200).send({
+        tshirt:'SHIRT XL',
+        size: 'large'
+
+    })
+})
+
 //get single player
 app.get("/players/:email", async (req,res) =>{
     try{
@@ -65,6 +73,7 @@ app.delete("/players/:id", async(req,res) => {
 
 })
 
+
 //updated player status via query by email
 app.put("/players/:email", async(req,res) => {
     try{
@@ -81,9 +90,9 @@ app.put("/players/:email", async(req,res) => {
 })
 
 
+const PORT = 8080;
 
 
-
-app.listen(5000, ()=> {
-    console.log("server has started on port 5000");
-});
+app.listen(PORT, 
+    ()=> {console.log(`server has started on port ${PORT}`);}
+);

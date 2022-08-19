@@ -5,3 +5,10 @@ CREATE TABLE players(
     email VARCHAR ( 255 ), 
     status VARCHAR ( 255 )
 );
+
+CREATE TABLE history(
+    game_id SERIAL PRIMARY KEY,
+    date VARCHAR ( 255 ), 
+    white VARCHAR ( 255 ),
+    black VARCHAR ( 255 )
+);

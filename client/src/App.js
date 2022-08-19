@@ -4,6 +4,7 @@ import Home from "./Home.js";
 import Admin from "./Admin.js";
 import Invite from "./Invite.js";
 import {render} from "react-dom";
+import background from "./img/iceland.jpeg";
 
 import {
   BrowserRouter,
@@ -13,6 +14,7 @@ import {
 
 function App() {
   return (
+    <div id="backgroundStyle" /*style={ { backgroundImage: `url(${background})`} } */>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>} />
@@ -20,6 +22,7 @@ function App() {
         <Route path="/invite" element={<Invite/>} />
       </Routes>
     </BrowserRouter>
+    </div>
   );
 }
 

@@ -11,7 +11,7 @@ const ListPlayers = () => {
 
     const getPlayers = async () => {
         try{
-            const response = await fetch("http://localhost:5000/players");
+            const response = await fetch("http://localhost:8080/players");
             const jsonData = await response.json();
 
             setPlayers(jsonData);
@@ -66,9 +66,8 @@ const ListPlayers = () => {
 
     return(
         <div className="">
-        {/* <h5 className="text-center mt-4 mb-3">Attending: {attendance[0]} | Tentative: {attendance[1]} | Not Attending: {attendance[2]} | Pending Response: {attendance[3]} </h5> */}
         <Attendance props={players}/>
-        <table className="table table-striped text-center">
+        <table className="table table-striped text-center " style={{boderRadius:10}}>
             <thead>
                 <tr>
                 <th>Player</th>

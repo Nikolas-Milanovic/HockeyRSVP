@@ -6,7 +6,7 @@ const ListEmails = (players) => {
   const deleteEmail = async (id) => {
       console.log(id);
     try {
-      const deleteTodo = await fetch(`http://localhost:5000/players/${id}`, {
+      const deleteTodo = await fetch(`http://localhost:8080/players/${id}`, {
         method: "DELETE",
       });
 

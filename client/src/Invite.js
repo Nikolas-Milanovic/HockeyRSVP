@@ -21,7 +21,7 @@ const Invite = () => {
 
   const getPlayer = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/players/${email}`);
+      const response = await fetch(`http://localhost:8080/players/${email}`);
       const jsonData = await response.json();
       setStatus(jsonData.status);
       return(
@@ -38,7 +38,7 @@ const Invite = () => {
     //   console.log(status);
     //   console.log(body);
       const response = await fetch(
-        `http://localhost:5000/players/${email}`,
+        `http://localhost:8080/players/${email}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -70,7 +70,7 @@ const Invite = () => {
 
   return (
     <div className="row d-flex justify-content-center flex-nowrap">
-      <div className="w-50">
+      <div className="playerlistcontainer">
         <h1 className="text-center mb-5 mt-5">Invite for: <i>{email}</i></h1>
         <div className="text-center">
           <button

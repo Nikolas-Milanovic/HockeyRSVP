@@ -7,9 +7,10 @@ const SendEmail = (players) => {
 
   const sendAllEmails = (e) =>{
     e.preventDefault();
-    console.log(players.props);
-    players.props.map( (player) => (
-        // sendEmail(player.email)
+    //console.log(players.props.props);
+    //console.log("this is an array? ",Array.isArray(players.props.props));
+    players.props.props.map( (player) => (
+        sendEmail(player.email),
         console.log("sent!")
     ))
   }
