@@ -1,3 +1,5 @@
+require('dotenv').config()
+//console.log(process.env)
 const express=require("express");
 const app= express();
 const cors = require("cors");
@@ -15,11 +17,14 @@ app.use(express.json()); //req.body
 //Create new player
 app.post("/players", async (req,res) => {
     try{
-
         const { email } = req.body;
         const { status } = req.body;
-        const newPlayer = await pool.query("INSERT INTO players (email, status) VALUES($1, $2) RETURNING *", 
-        [email, status]
+        const  guests  = "0"; 
+        const  paid  = "N";
+        const  position  = "player";
+        
+        const newPlayer = await pool.query("INSERT INTO players (email, status, guests, paid, position) VALUES($1, $2, $3, $4, $5) RETURNING *", 
+        [email, status, guests, paid, position]
         );
 
         res.json(newPlayer.rows[0]);
@@ -32,7 +37,7 @@ app.post("/players", async (req,res) => {
 //Get all players
 app.get("/players", async(req,res) =>{
     try{
-        const allPlayers = await pool.query("SELECt * FROM players");
+        const allPlayers = await pool.query("SELECT * FROM players ORDER BY CASE WHEN status = 'Attending' THEN 1 WHEN status = 'Tentative' THEN 2 WHEN status = 'Pending Response' THEN 3 ELSE 4 END;");
         res.json(allPlayers.rows);
     } catch(err){
         console.log(err.message);
@@ -83,15 +88,135 @@ app.put("/players/:email", async(req,res) => {
             "UPDATE players SET status = $1 WHERE email = $2",
             [status, email]
         );
-        res.json("Todo was updated");
+        res.json("Players was updated");
     } catch (err){
         console.log(err.message);
     }
 })
 
+//updated player's # of guests via query by email
+app.put("/players/guests/:email", async(req,res) => {
+    try{
+        const {email} = req.params;
+        const {guests} = req.body;
+        const updatePLayer = await pool.query(
+            "UPDATE players SET guests = $1 WHERE email = $2",
+            [guests, email]
+        );
+        res.json("Players was updated");
+    } catch (err){
+        console.log(err.message);
+    }
+})
 
-const PORT = 8080;
+//updated if player has paid yet via query by email
+app.put("/players/payment/:email", async(req,res) => {
+    try{
+        const {email} = req.params;
+        const {paid} = req.body;
+        const updatePLayer = await pool.query(
+            "UPDATE players SET paid = $1 WHERE email = $2",
+            [paid, email]
+        );
+        res.json("Players was updated");
+    } catch (err){
+        console.log(err.message);
+    }
+})
 
+//updated if player's position via query by email
+app.put("/players/position/:email", async(req,res) => {
+    try{
+        const {email} = req.params;
+        const {position} = req.body;
+        const updatePLayer = await pool.query(
+            "UPDATE players SET position = $1 WHERE email = $2",
+            [position, email]
+        );
+        res.json("Players was updated");
+    } catch (err){
+        console.log(err.message);
+    }
+})
+
+//updated ALL player status to Pending Response, Guests = 0 
+app.put("/clear", async(req,res) => {
+    console.log("clear call")
+    try{
+        
+        const status = "Pending Response";
+        const guests = "0";
+        const updatePLayer = await pool.query(
+            "UPDATE players SET status = $1, guests = $2;",
+            [status, guests]
+        );
+        res.json("Players was updated");
+    } catch (err){
+        console.log(err.message);
+    }
+})
+
+//////////////////////////////HISTORY ROUTES//////////////////////////////
+
+
+//Create new game
+app.post("/history", async (req,res) => {
+    try{
+        const { date } = req.body;
+        const { white } = req.body;
+        const { black } = req.body;
+        const newPlayer = await pool.query("INSERT INTO history (date, white, black) VALUES($1, $2, $3) RETURNING *", 
+        [date, white, black]
+        );
+
+        res.json(newPlayer.rows[0]);
+        console.log(req.body);
+    } catch(err){
+        console.error(err.message, "HELP!!!");
+    }
+})
+
+//Get all game history
+app.get("/history", async(req,res) =>{
+    try{
+        const allHistory = await pool.query("SELECT * FROM history ORDER BY date ASC");
+        res.json(allHistory.rows);
+    } catch(err){
+        console.log(err.message);
+    }
+})
+
+//delete all games
+app.delete("/history", async(req,res) => {
+    try{
+        const deletePlayer = await pool.query("DELETE FROM history");
+        res.json("Player was deleted");
+    } catch (err){
+        console.log(err.message);
+    }
+
+})
+
+//updated game score via query by date
+app.put("/history/:game_id", async(req,res) => {
+    try{
+        const {game_id} = req.params;
+        const {white} = req.body;
+        const {black} = req.body;
+        
+        console.log("HELLLLO", white, black, game_id);
+        const updatePLayer = await pool.query(
+            "UPDATE history SET white = $1, black = $2 WHERE game_id = $3;",
+            [white, black, game_id]
+        );
+        res.json("history was updated");
+    } catch (err){
+        console.log(err.message);
+    }
+})
+
+const PORT = process.env.PORT || 8080
+//const PORT = 8080;
 
 app.listen(PORT, 
     ()=> {console.log(`server has started on port ${PORT}`);}

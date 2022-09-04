@@ -11,7 +11,7 @@ const Admin = () => {
       const response = await fetch("http://localhost:8080/players");
       const jsonData = await response.json();
 
-      console.log(jsonData);
+      //console.log(jsonData);
       setPlayers(jsonData);
     } catch (err) {
       console.log(err.message);
@@ -36,8 +36,8 @@ const Admin = () => {
         body: JSON.stringify(body),
       });
 
-      console.log(JSON.stringify(default_status));
-      console.log(JSON.stringify(body));
+      //console.log(JSON.stringify(default_status));
+      //console.log(JSON.stringify(body));
       window.location = "/admin";
       //fetch call
     } catch (err) {
@@ -62,12 +62,11 @@ const Admin = () => {
     getPlayers();
   }, []);
 
-
   return (
     <div classname="">
       <div className="row d-flex justify-content-center flex-nowrap">
         <div className="playerlistcontainer">
-          <h1 className="text-center mt-5">Admin page</h1>
+          <h1 className="text-center mt-5">Admin Page</h1>
           <form className="d-flex mt-5" onSubmit={onSubmitForm}>
             <input
               type="text"
@@ -75,9 +74,9 @@ const Admin = () => {
               className="form-control"
               onChange={(e) => setEmail(e.target.value)}
             ></input>
-            <button className="btn btn-success ml-5 w-25">Add</button>
+            <button className="btn btn-success ml-5 w-25">Add Player (email)</button>
           </form>
-          <Attendance props={players}/>
+          <Attendance/>
           <ListEmails props={players}/>
         </div>
       </div>

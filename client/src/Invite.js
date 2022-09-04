@@ -1,42 +1,86 @@
-import { useState, useEffect, setState} from "react";
+import { useState, useEffect, setState, useContext} from "react";
 import ListPlayers from "./components/ListPlayers.js";
+import {PlayersContext} from "./PlayersContext.js";
 
 const Invite = () => {
   
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [skipCount, setSkipCount] = useState(0);
+  const [guests,setGuests] = useState(0);
+  const {players, setPlayers} = useContext(PlayersContext); 
+  const queryParams = new URLSearchParams(window.location.search);
+  const URLemail = queryParams.get("email");
 
 
 
-  const getURLParams = () => {
-    try {
-      const queryParams = new URLSearchParams(window.location.search);
-      const URLemail = queryParams.get("email");
-      setEmail(URLemail);
-    } catch (err) {
-      console.log(err.message);
-    }
+  const updateGuests = (value) => {
+    console.log("updateGuests>>>", guests+value);
+    let num =  parseInt(guests)+ parseInt(value);
+    setGuests(guests => (0 <= (num) && (num) <= 4) ? (num) : 0)
+  }
+
+  const updateInviteEmail = () => {
+    players.map(player => {
+      if (player.email === URLemail) {
+        setEmail(player.email);
+        setStatus(player.status);
+        setGuests(player.guests);
+      }
+    });
   };
 
-  const getPlayer = async () => {
+  const updatePlayersStateStatus = (newStatus) => {
+    setPlayers(players => {
+      let data = [...players];
+      let indexOfCurrentPlayer = data.findIndex(player => player.email === URLemail);
+
+      data[indexOfCurrentPlayer] = {
+        ...data[indexOfCurrentPlayer], 
+        status: newStatus
+      };
+      return data;
+    });
+  };
+
+  const updatePlayersStateGuests = () => {
+    setPlayers(players => {
+      let data = [...players];
+      let indexOfCurrentPlayer = data.findIndex(player => player.email === URLemail);
+
+      data[indexOfCurrentPlayer] = {
+        ...data[indexOfCurrentPlayer], 
+        guests: guests
+      };
+      return data;
+    });
+  };
+
+
+  const updateGuestsInDatabase = async () => {
+    if(guests==null){
+      return
+    }
+    console.log("update guests to>>>",guests);
     try {
-      const response = await fetch(`http://localhost:8080/players/${email}`);
-      const jsonData = await response.json();
-      setStatus(jsonData.status);
-      return(
-        jsonData.status
-      )
+      const body = {guests}
+      const response = await fetch(
+        `http://localhost:8080/players/guests/${email}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        }
+      );
     } catch (err) {
       console.error(err.message);
     }
   };
 
   const updateStatus = async () => {
+    console.log("updating stauts in database to>>", status);
     try {
       const body = {status}
-    //   console.log(status);
-    //   console.log(body);
       const response = await fetch(
         `http://localhost:8080/players/${email}`,
         {
@@ -45,40 +89,42 @@ const Invite = () => {
           body: JSON.stringify(body)
         }
       );
-      window.location = `/invite/?email=${email}`;
     } catch (err) {
       console.error(err.message);
     }
   };
 
-
+  useEffect(() => {
+    if(players!=null){
+      updateInviteEmail();
+    }
+  }, [players]);
 
   useEffect(() => {
-    getURLParams();
-  }, []);
+    if(players!=null){
+      updateStatus();
+    }
+  }, [status])
 
   useEffect(() => {
-    getPlayer();
-  }, [email]);
+    if(players!=null){
+      updatePlayersStateGuests();
+      updateGuestsInDatabase();
+    }
+  }, [guests])
 
-  useEffect(() => {
-    if (skipCount <= 2) setSkipCount(skipCount+1);
-    if (skipCount > 2){
-        updateStatus();
-    };
-}, [status])
 
   return (
     <div className="row d-flex justify-content-center flex-nowrap">
       <div className="playerlistcontainer">
         <h1 className="text-center mb-5 mt-5">Invite for: <i>{email}</i></h1>
-        <div className="text-center">
+        <div className="text-center containerRow">
           <button
             type="button"
             className={`btn btn-outline-success m-1 ${status === "Attending" ? "active" : ""}`}
-            onClick = {e =>(
-                setStatus("Attending")
-            )
+            onClick = {e =>{
+              updatePlayersStateStatus("Attending")
+            }
             }
           >
             Attending
@@ -87,7 +133,7 @@ const Invite = () => {
             type="button"
             className={`btn btn-outline-secondary m-1 ${status === "Tentative" ? "active" : ""}`}
             onClick={e => {
-                setStatus("Tentative");
+              updatePlayersStateStatus("Tentative")
             }}
           >
             Tentative
@@ -96,13 +142,27 @@ const Invite = () => {
             type="button"
             className={`btn btn-outline-danger m-1 ${status === "Not Attending" ? "active" : ""}`}
             onClick={e => {
-                setStatus("Not Attending");
+              updatePlayersStateStatus("Not Attending");
             }}
           >
             Not Attending
           </button>
+          <div className="vl mx-2 "></div>
+          <div className="vl mr-3"></div>
+          <div className="buttonGroup">
+            <button className="btn btn-outline-success plusButton "
+            onClick = {e =>(
+              updateGuests(1)
+            )}>+</button>
+            <button className="btn btn-outline-secondary rounded-0 disabled guestsButton">Guests {guests}</button>
+            <button className="btn btn-outline-danger minusButton"
+            onClick = {e =>(
+              updateGuests(-1)
+            )}>-</button>
+          </div>
         </div>
-        <ListPlayers />
+        
+        <ListPlayers props={guests}/>
       </div>    
     </div>
   );

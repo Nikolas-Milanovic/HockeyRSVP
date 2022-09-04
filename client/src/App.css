@@ -54,7 +54,7 @@ body{
 
 .playerlistcontainer{
   width: 70%;
-  height: 100vh;
+  height: auto;
   background-color: azure;
   margin-top: 50px;
   border-radius: 10px;
@@ -62,7 +62,7 @@ body{
 }
 
 
-.attendanceStyling{
+.attendanceStyling {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -70,7 +70,7 @@ body{
   margin-top:10px;
 }
 
-.historyOverview{
+.historyOverview {
   display: flex;
   flex-direction:row;
   justify-content: center;
@@ -78,9 +78,67 @@ body{
   margin-bottom: 10px;
 }
 
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.containerRow{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 table {
   /* border-collapse: collapse; */
   border-radius: 1em;
   /* overflow: hidden; */
   margin-top: 30px;
+}
+
+.vl {
+  /* border-left: 1px solid rgb(157, 154, 154); */
+  border-left: 1px solid grey;
+  height: 3rem;
+}
+
+.minusButton{
+  border-bottom-left-radius: 0rem;
+  border-top-left-radius: 0rem;
+}
+
+.plusButton{
+  border-bottom-right-radius: 0rem;
+  border-top-right-radius: 0rem;
+}
+
+.guestsButton{
+  border-right: 0px;
+  border-left: 0px;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+
+.playerContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+}
+
+.spacingContainer{
+  min-width: 100%;
 }

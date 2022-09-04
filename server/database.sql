@@ -12,3 +12,12 @@ CREATE TABLE history(
     white VARCHAR ( 255 ),
     black VARCHAR ( 255 )
 );
+
+-- psql -U postgres
+-- \l
+-- \c nikolasmilanovic
+-- \dt
+-- CREATE DATABASE HockeyRSVP;
+-- \l
+-- \c HockeyRSVP
+-- \dt
