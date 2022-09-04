@@ -8,7 +8,7 @@ const Admin = () => {
 
   const getPlayers = async () => {
     try {
-      const response = await fetch("http://localhost:8080/players");
+      const response = await fetch("http://localhost:8080/api/players");
       const jsonData = await response.json();
 
       //console.log(jsonData);
@@ -30,7 +30,7 @@ const Admin = () => {
       const default_status = { status };
       const body = { email, status };
 
-      const response = await fetch("http://localhost:8080/players", {
+      const response = await fetch("http://localhost:8080/api/players", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

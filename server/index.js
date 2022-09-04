@@ -15,7 +15,7 @@ app.use(express.json()); //req.body
 
 
 //Create new player
-app.post("/players", async (req,res) => {
+app.post("/api/players", async (req,res) => {
     try{
         const { email } = req.body;
         const { status } = req.body;
@@ -35,7 +35,7 @@ app.post("/players", async (req,res) => {
 })
 
 //Get all players
-app.get("/players", async(req,res) =>{
+app.get("/api/players", async(req,res) =>{
     try{
         const allPlayers = await pool.query("SELECT * FROM players ORDER BY CASE WHEN status = 'Attending' THEN 1 WHEN status = 'Tentative' THEN 2 WHEN status = 'Pending Response' THEN 3 ELSE 4 END;");
         res.json(allPlayers.rows);
@@ -44,7 +44,7 @@ app.get("/players", async(req,res) =>{
     }
 })
 
-app.get('/test',(reg,res)=>{
+app.get("/api/test",(reg,res)=>{
     res.status(200).send({
         tshirt:'SHIRT XL',
         size: 'large'
@@ -53,7 +53,7 @@ app.get('/test',(reg,res)=>{
 })
 
 //get single player
-app.get("/players/:email", async (req,res) =>{
+app.get("/api/players/:email", async (req,res) =>{
     try{
         const {email} = req.params;
         const player = await pool.query("SELECT * FROM players WHERE email = $1", [email]);
@@ -66,7 +66,7 @@ app.get("/players/:email", async (req,res) =>{
 
 
 //delete player
-app.delete("/players/:id", async(req,res) => {
+app.delete("/api/players/:id", async(req,res) => {
     try{
         const {id}= req.params;
         const deletePlayer = await pool.query("DELETE FROM players WHERE player_id = $1", [id]);
@@ -80,7 +80,7 @@ app.delete("/players/:id", async(req,res) => {
 
 
 //updated player status via query by email
-app.put("/players/:email", async(req,res) => {
+app.put("/api/players/:email", async(req,res) => {
     try{
         const {email} = req.params;
         const {status} = req.body;
@@ -95,7 +95,7 @@ app.put("/players/:email", async(req,res) => {
 })
 
 //updated player's # of guests via query by email
-app.put("/players/guests/:email", async(req,res) => {
+app.put("/api/players/guests/:email", async(req,res) => {
     try{
         const {email} = req.params;
         const {guests} = req.body;
@@ -110,7 +110,7 @@ app.put("/players/guests/:email", async(req,res) => {
 })
 
 //updated if player has paid yet via query by email
-app.put("/players/payment/:email", async(req,res) => {
+app.put("/api/players/payment/:email", async(req,res) => {
     try{
         const {email} = req.params;
         const {paid} = req.body;
@@ -125,7 +125,7 @@ app.put("/players/payment/:email", async(req,res) => {
 })
 
 //updated if player's position via query by email
-app.put("/players/position/:email", async(req,res) => {
+app.put("/api/players/position/:email", async(req,res) => {
     try{
         const {email} = req.params;
         const {position} = req.body;
@@ -140,7 +140,7 @@ app.put("/players/position/:email", async(req,res) => {
 })
 
 //updated ALL player status to Pending Response, Guests = 0 
-app.put("/clear", async(req,res) => {
+app.put("/api/clear", async(req,res) => {
     console.log("clear call")
     try{
         
@@ -160,7 +160,7 @@ app.put("/clear", async(req,res) => {
 
 
 //Create new game
-app.post("/history", async (req,res) => {
+app.post("/api/history", async (req,res) => {
     try{
         const { date } = req.body;
         const { white } = req.body;
@@ -177,7 +177,7 @@ app.post("/history", async (req,res) => {
 })
 
 //Get all game history
-app.get("/history", async(req,res) =>{
+app.get("/api/history", async(req,res) =>{
     try{
         const allHistory = await pool.query("SELECT * FROM history ORDER BY date ASC");
         res.json(allHistory.rows);
@@ -187,7 +187,7 @@ app.get("/history", async(req,res) =>{
 })
 
 //delete all games
-app.delete("/history", async(req,res) => {
+app.delete("/api/history", async(req,res) => {
     try{
         const deletePlayer = await pool.query("DELETE FROM history");
         res.json("Player was deleted");
@@ -198,7 +198,7 @@ app.delete("/history", async(req,res) => {
 })
 
 //updated game score via query by date
-app.put("/history/:game_id", async(req,res) => {
+app.put("/api/history/:game_id", async(req,res) => {
     try{
         const {game_id} = req.params;
         const {white} = req.body;

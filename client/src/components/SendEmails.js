@@ -40,7 +40,7 @@ const SendEmail = (players) => {
   const clearStatus = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/clear`,
+        `http://localhost:8080/api/clear`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -63,7 +63,7 @@ const SendEmail = (players) => {
   //     //const default_status = { status };
   //     const body = { date, white, black };
 
-  //     const response = await fetch("http://localhost:8080/history", {
+  //     const response = await fetch("http://localhost:8080/api/history", {
   //       method: "POST",
   //       headers: { "Content-Type": "application/json" },
   //       body: JSON.stringify(body),

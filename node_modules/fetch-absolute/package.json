@@ -1,0 +1,36 @@
+{
+  "name": "fetch-absolute",
+  "description": "Fetch with absolute URLs.",
+  "author": {
+    "name": "Gerard Rovira Sánchez",
+    "email": "zurfyx@gmail.com",
+    "url": "zurfyx.com"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zurfyx/fetch-absolute.git"
+  },
+  "keywords": [
+    "fetch",
+    "node-fetch",
+    "absolute",
+    "prefix",
+    "url",
+    "test"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zurfyx/fetch-absolute/issues"
+  },
+  "homepage": "https://github.com/zurfyx/fetch-absolute#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.7"
+  }
+}

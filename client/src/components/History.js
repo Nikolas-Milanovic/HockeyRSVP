@@ -25,7 +25,7 @@ const History = (displayEdit) => {
         var historyRes;
         //Get History Requests from API
         try {
-          const response = await fetch("http://localhost:8080/history");
+          const response = await fetch("http://localhost:8080/api/history");
           const jsonData = await response.json();
     
           //console.log("HISTorY>>>>",jsonData);
@@ -106,7 +106,7 @@ const History = (displayEdit) => {
             const body = {white, black}
             console.log("body",body)
             const response = await fetch(
-              `http://localhost:8080/history/${id}`,
+              `http://localhost:8080/api/history/${id}`,
               {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },

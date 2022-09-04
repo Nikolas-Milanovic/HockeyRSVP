@@ -13,7 +13,7 @@ const ListPlayers = (guests) => {
 
     // const getPlayers = async () => {
     //     try{
-    //         const response = await fetch("http://localhost:8080/players");
+    //         const response = await fetch("http://localhost:8080/api/players");
     //         const jsonData = await response.json();
             
     //         setPlayers(jsonData);

@@ -15,7 +15,7 @@ const ListEmails = (players) => {
     try {
       const body = {paid}
       const response = await fetch(
-        `http://localhost:8080/players/payment/${email}`,
+        `http://localhost:8080/api/players/payment/${email}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -30,7 +30,7 @@ const ListEmails = (players) => {
   const deleteEmail = async (id) => {
       //console.log(id);
     try {
-      const deleteTodo = await fetch(`http://localhost:8080/players/${id}`, {
+      const deleteTodo = await fetch(`http://localhost:8080/api/players/${id}`, {
         method: "DELETE",
       });
 
@@ -46,7 +46,7 @@ const ListEmails = (players) => {
     try {
       const body = {position}
       const response = await fetch(
-        `http://localhost:8080/players/position/${email}`,
+        `http://localhost:8080/api/players/position/${email}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

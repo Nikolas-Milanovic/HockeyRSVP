@@ -65,7 +65,7 @@ const Invite = () => {
     try {
       const body = {guests}
       const response = await fetch(
-        `http://localhost:8080/players/guests/${email}`,
+        `http://localhost:8080/api/players/guests/${email}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -82,7 +82,7 @@ const Invite = () => {
     try {
       const body = {status}
       const response = await fetch(
-        `http://localhost:8080/players/${email}`,
+        `http://localhost:8080/api/players/${email}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

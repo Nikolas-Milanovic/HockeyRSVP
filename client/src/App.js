@@ -17,9 +17,13 @@ import {
 
 function App() {
 
+  var fetch = require('node-fetch');
+  var fetchAbsolute = require('fetch-absolute');
+  global.fetchApi = fetchAbsolute(fetch)('http://localhost:8080');
+
   const getPlayers = async () => {
     try{
-        const response = await fetch("http://localhost:8080/players");
+        const response = await fetch("/api/players");
         const jsonData = await response.json();
         console.log(jsonData);
         return jsonData;
