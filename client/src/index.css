@@ -11,3 +11,102 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.playerlistcontainer{
+  width: 70%;
+  height: auto;
+  background-color: azure;
+  margin-top: 50px;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.containerRow{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.playerContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.buttonGroup{
+  margin-left: 20px;
+}
+
+.statusOptions button{
+  display: inherit;
+  min-width: 200px;
+} 
+
+.historyOverview h5{
+  /* margin-right: 50px; */
+}
+
+.attendanceStyling {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top:10px;
+  
+}
+
+.historyOverview {
+  display: flex;
+  flex-direction:row;
+  align-items: flex-end;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 30px;
+  width: 100%;
+  
+}
+
+
+
+/*FOR MOBILE DISPLAY/////////////////FOR MOBILE DISPLAY/////////////////FOR MOBILE DISPLAY*/
+@media screen and (max-width: 950px) {
+  .playerlistcontainer{
+    margin-top: 0px;
+    width: 100%;
+    border-radius: 0px;
+    padding: 1.5rem;
+  }
+  .containerRow{
+    flex-direction: column;
+  }
+  .playerTable{
+    font-size: 14px;
+  }
+  .playerContainer{
+    gap: 10px;
+  }
+  .buttonGroup{
+    margin-left: 0px;
+    margin-top: 20px;
+  }
+
+  h1{
+    font-size: 25px;
+  }
+  h5{
+    font-size: 15px;
+  
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .playerTable{
+    font-size: 10px;
+  }
+}

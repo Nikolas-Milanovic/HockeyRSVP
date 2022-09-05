@@ -4,50 +4,12 @@ import {PlayersContext} from "../PlayersContext.js";
 
 const ListPlayers = (guests) => {
 
-    //const [players,setPlayers] = useState([]);
-    const {players, setPlayers} = useContext(PlayersContext); 
-    //const [attendance,setAttendance] = useState([0,0,0,0]); //[Attending,Tentative,Not Attending, Pending Response]
-
-    //var createAttendance=[1,0,0,0];
-    //var players=[];
-
-    // const getPlayers = async () => {
-    //     try{
-    //         const response = await fetch("http://localhost:8080/api/players");
-    //         const jsonData = await response.json();
-            
-    //         setPlayers(jsonData);
-    //         //console.log(jsonData);
-    //     }
-    //     catch (err) {
-    //         console.log(err.message);
-    //     }
-    // }
-
-    // useEffect(()=>{
-    //     getPlayers();
-    // }, []);
-
-    // useEffect(() => {
-    //     if(players!=null){
-          
-    //     }
-    // }, [players]);
-
-    // useEffect(()=>{
-    //    //console.log("Guests Update Recieved>>>", guests)
-    //     getPlayers();
-    // }, [guests]);
-
-
-    // useEffect(() =>{
-
-    // },[])
+    const {players, setPlayers} = useContext(PlayersContext);  
 
     return(
         <div className="">
         <Attendance/>
-        <table className="table table-striped text-center " style={{boderRadius:10}}>
+        <table className="table table-striped text-center playerTable" style={{boderRadius:10}}>
             <thead>
                 <tr>
                 <th></th>

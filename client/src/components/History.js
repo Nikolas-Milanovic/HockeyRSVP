@@ -3,7 +3,6 @@ import Moment from 'moment';
 
 const History = (displayEdit) => {
     const [displayHistory, setdisplayHistory] = useState(false);
-    const [initalData,setInitialRender] = useState(false);
     const [history, setHistory] = useState(0);
     const [record,setRecored] = useState([0,0,0,0,0,0]);
     const [nextGame,setNextGame] = useState("No");
@@ -15,7 +14,7 @@ const History = (displayEdit) => {
 
     // var PrevScore = ["null","null"]; // [white score, black score]
 
-    const [whiteWin, setWhiteWin] = useState(true);
+    const [whiteWin, setWhiteWin] = useState(false);
     const [tie, setTie] = useState(false);
     
     
@@ -56,6 +55,19 @@ const History = (displayEdit) => {
             setNextGame('No'); // Next Game
             setWhite(historyRes[historyRes.length-1].white);
             setBlack(historyRes[historyRes.length-1].black);
+            if(historyRes[i].white > historyRes[i].black){
+                setWhiteWin(true);
+                setTie(false);
+                //setWhiteWin(true); <--already intitalized to true
+                // setTie(false); <--already intitalized to false
+            }else if(historyRes[i].white < historyRes[i].black){
+                setWhiteWin(false);
+                setTie(false);
+                 // setTie(false); <--already intitalized to false
+            }else{
+                setWhiteWin(false);
+                setTie(true);
+            }
         }
         else{
             for(var i=0;i<(historyRes.length-1);i++){
@@ -63,6 +75,16 @@ const History = (displayEdit) => {
                     setNextGame(historyRes[i+1].date); 
                     setWhite(historyRes[i].white);
                     setBlack(historyRes[i].black);
+                    if(historyRes[i].white > historyRes[i].black){
+                        setWhiteWin(true);
+                        setTie(false);
+                    }else if(historyRes[i].white < historyRes[i].black){
+                        setWhiteWin(false);
+                        setTie(false);
+                    }else{
+                        setWhiteWin(false);
+                        setTie(true);
+                    }
                     break;
                 }
             }
@@ -84,16 +106,11 @@ const History = (displayEdit) => {
         }
 
         setRecored([whiteWins,whiteLoses,ties,whiteLoses,whiteWins,ties]);
-
     };
 
 
-    useEffect(()=>{
-        getHistory();
-    }, []);
 
 
-//TODO: add # guests to attneding count
     const editPrevGame = async (id) => {
         const white = prompt('Update WHITE Score to: ');
         const black = prompt('Update BLACK Score to: ');
@@ -120,60 +137,64 @@ const History = (displayEdit) => {
             console.error(err.message);
           }
     }
+
+    useEffect(()=>{
+        getHistory();
+    }, []);
     
     
 
     return(
         /* { !(nextGame===gameDates[0])  && */
         <div className="attendanceStyling">
-        <div className="historyOverview">
-             <h5 style={{marginRight:50}}> 
-                Prev Game:  
-                { !tie && whiteWin && <b> (White) {white}</b>}
-                { !whiteWin && `(White) ` + white} -  
-                { !tie && !whiteWin && <b> (black) {black} </b>}
-                { whiteWin && black + ` (Black)`} 
-            </h5>
-            <button
-                type="button"
-                className={`btn btn-outline-info ${displayHistory === true ? "active" : ""}`}
-                onClick = { (e)=>(  setdisplayHistory(!displayHistory))}
-                >
-                View Game Log 
-            </button>
-        </div>
+            <div className="historyOverview">
+                { ( history && nextGame!=history[0].date) && <h5> 
+                    Prev Game:  
+                    { (!tie && whiteWin) && <b> (White) {white===null ? "?": white}</b>}
+                    { (tie || !whiteWin) && `(White) ` + `${white===null ? "?": white}`} -  
+                    { (!tie && !whiteWin) && <b>  {black===null ? "?": black} (black) </b>}
+                    { (tie || whiteWin) && ` ${black===null ? "?": black}` + ` (Black)`} 
+                </h5> } 
+                <button
+                    type="button"
+                    className={`btn btn-outline-info ${displayHistory === true ? "active" : ""}`}
+                    onClick = { (e)=>(  setdisplayHistory(!displayHistory))}
+                    >
+                    View Game Log 
+                </button>
+            </div>
        
-        {displayHistory && <table className="table table-sm">
-            <thead>
-            <tr>
-                <th scope="col">Record</th>
-                <th scope="col">White ({record[0]}-{record[1]}-{record[2]})</th>
-                <th scope="col">Black ({record[3]}-{record[4]}-{record[5]})</th>
-                {displayEdit && <th>Edit</th>}
-            </tr>
-            </thead>
-            <tbody>
+            {displayHistory && <table className="table table-sm">
+                <thead>
                 <tr>
-                    <td>{nextGame}</td>
-                    <td>Upcoming Game</td>
+                    <th scope="col">Record</th>
+                    <th scope="col">White ({record[0]}-{record[1]}-{record[2]})</th>
+                    <th scope="col">Black ({record[3]}-{record[4]}-{record[5]})</th>
+                    {displayEdit && <th>Edit</th>}
                 </tr>
-                {[...history].reverse().map(history => (
-                    <tr key={history.game_id}>
-                        { (history.date < curDate) && <td>{history.date}</td> }
-                        { (history.date < curDate) && <td>{history.white}</td> }
-                        { (history.date < curDate) && <td>{history.black}</td> }
-                        { ((history.date < curDate) && displayEdit) && <td>
-                            <button
-                                className="btn btn-outline-info"
-                                onClick={() => editPrevGame(history.game_id)}
-                            >
-                                Edit
-                            </button>
-                        </td>}
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{nextGame}</td>
+                        <td>Upcoming Game</td>
                     </tr>
-                ))}
-            </tbody>
-        </table> }
+                    {[...history].reverse().map(history => (
+                        <tr key={history.game_id}>
+                            { (history.date < curDate) && <td>{history.date}</td> }
+                            { (history.date < curDate) && <td>{history.white}</td> }
+                            { (history.date < curDate) && <td>{history.black}</td> }
+                            { ((history.date < curDate) && displayEdit) && <td>
+                                <button
+                                    className="btn btn-outline-info"
+                                    onClick={() => editPrevGame(history.game_id)}
+                                >
+                                    Edit
+                                </button>
+                            </td>}
+                        </tr>
+                    ))}
+                </tbody>
+            </table> }
         </div>
     )
 }

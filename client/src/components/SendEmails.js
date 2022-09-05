@@ -22,7 +22,7 @@ const SendEmail = (players) => {
   const sendEmail = (email) => {
     var templateParams = {
         to_email: email,
-        message: message
+        message: message.replace("{{email}}",email)
     };
 
     emailjs.send('service_qywuhhg','template_oh5otuh',templateParams, 'user_8zVeV05tOzxgN06cAIfeM')
@@ -36,7 +36,7 @@ const SendEmail = (players) => {
 
 
   //This shoudl happen every saturday 
-  //TODO THIS SHOULD HAPPEN EVERY SATURDAY AFTER HOCKEY 
+  //TODO THIS SHOULD HAPPEN EVERY SATURDAY AFTER HOCKEY?
   const clearStatus = async () => {
     try {
       const response = await fetch(

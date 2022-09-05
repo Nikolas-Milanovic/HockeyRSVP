@@ -40,7 +40,7 @@ const Attendance = () => {
         <div className="attendanceStyling">
             <History/>
         <h5 className="text-center mb-0">
-            Attending: {attendance[0]} | Tentative: {attendance[1]} | Not Attending: {attendance[2]} | Pending Response: {attendance[3]} 
+            <b>Attending: {attendance[0]} </b> | Tentative: {attendance[1]} | Not Attending: {attendance[2]} | Pending Response: {attendance[3]} 
         </h5>
         </div>
     )

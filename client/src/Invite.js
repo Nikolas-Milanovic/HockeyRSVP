@@ -119,36 +119,39 @@ const Invite = () => {
       <div className="playerlistcontainer">
         <h1 className="text-center mb-5 mt-5">Invite for: <i>{email}</i></h1>
         <div className="text-center containerRow">
-          <button
-            type="button"
-            className={`btn btn-outline-success m-1 ${status === "Attending" ? "active" : ""}`}
-            onClick = {e =>{
-              updatePlayersStateStatus("Attending")
-            }
-            }
-          >
-            Attending
-          </button>
-          <button
-            type="button"
-            className={`btn btn-outline-secondary m-1 ${status === "Tentative" ? "active" : ""}`}
-            onClick={e => {
-              updatePlayersStateStatus("Tentative")
-            }}
-          >
-            Tentative
-          </button>
-          <button
-            type="button"
-            className={`btn btn-outline-danger m-1 ${status === "Not Attending" ? "active" : ""}`}
-            onClick={e => {
-              updatePlayersStateStatus("Not Attending");
-            }}
-          >
-            Not Attending
-          </button>
-          <div className="vl mx-2 "></div>
-          <div className="vl mr-3"></div>
+          <div className="statusOptions">
+            <button
+              type="button"
+              className={`btn btn-outline-success m-1 ${status === "Attending" ? "active" : ""}`}
+              onClick = {e =>{
+                updatePlayersStateStatus("Attending")
+              }
+              }
+            >
+              Attending
+            </button>
+            <button
+              type="button"
+              className={`btn btn-outline-secondary m-1 ${status === "Tentative" ? "active" : ""}`}
+              onClick={e => {
+                updatePlayersStateStatus("Tentative")
+              }}
+            >
+              Tentative
+            </button>
+            <button
+              type="button"
+              className={`btn btn-outline-danger m-1 ${status === "Not Attending" ? "active" : ""}`}
+              onClick={e => {
+                updatePlayersStateStatus("Not Attending");
+              }}
+            >
+              Not Attending
+            </button>
+          </div>
+          
+          {false && <div className="vl mx-2 "></div>}
+          {false && <div className="vl mr-3"></div>}
           <div className="buttonGroup">
             <button className="btn btn-outline-success plusButton "
             onClick = {e =>(
