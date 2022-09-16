@@ -1,13 +1,9 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Home from "./Home.js";
 import Admin from "./Admin.js";
 import Invite from "./Invite.js";
-import {render} from "react-dom";
-import background from "./img/iceland.jpeg";
 import React, {useEffect, createContext, useState, useMemo} from "react";
 import {PlayersContext} from "./PlayersContext.js";
-import HockeyAPI from "./apis/HockeyAPI.js";
 
 import {
   BrowserRouter,
@@ -17,9 +13,14 @@ import {
 
 function App() {
 
+  const baseURL = 
+    process.env.NODE_ENV ==='production'
+    ? "https://mississaugaoldtimers.com/api/players"  
+    : "http://localhost:8080/api/players";
+
   const getPlayers = async () => {
     try{
-        const response = await fetch("http://localhost:8080/api/players");
+        const response = await fetch(baseURL);
         const jsonData = await response.json();
         console.log(jsonData);
         return jsonData;

@@ -5,6 +5,11 @@ const SendEmail = (players) => {
   const form = useRef();
   const [message, setMessage] = useState('');
 
+  const baseURL = 
+    process.env.NODE_ENV ==='production'
+    ? "https://mississaugaoldtimers.com/api"  
+    : "http://localhost:8080/api";
+
   const handleMessageChange = event => {
     // access textarea value
     setMessage(event.target.value);
@@ -13,16 +18,19 @@ const SendEmail = (players) => {
   const sendAllEmails = (e) =>{
     e.preventDefault();
     players.props.props.map( (player) => (
-        sendEmail(player.email),
-        console.log("sent!")
+        //console.log("WHAT IS GOING ON",message.replace("{{EMAIL}}",player.email)),
+        sendEmail(player.email)
+        //console.log("sent!")
     ))
   }
 
   //TODO WHAT IS EFMAIL DOES NOT EXIST 
   const sendEmail = (email) => {
+    const temp = message.replace("{{EMAIL}}","https://mississaugaoldtimers.com/invite/?email="+email)
+    //console.log(temp)
     var templateParams = {
         to_email: email,
-        message: message.replace("{{email}}",email)
+        message: temp
     };
 
     emailjs.send('service_qywuhhg','template_oh5otuh',templateParams, 'user_8zVeV05tOzxgN06cAIfeM')
@@ -40,7 +48,7 @@ const SendEmail = (players) => {
   const clearStatus = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/clear`,
+        baseURL+`/clear`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -63,7 +71,7 @@ const SendEmail = (players) => {
   //     //const default_status = { status };
   //     const body = { date, white, black };
 
-  //     const response = await fetch("http://localhost:8080/api/history", {
+  //     const response = await fetch(baseURL+/history", {
   //       method: "POST",
   //       headers: { "Content-Type": "application/json" },
   //       body: JSON.stringify(body),

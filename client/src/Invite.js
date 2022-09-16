@@ -12,6 +12,12 @@ const Invite = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const URLemail = queryParams.get("email");
 
+  console.log("URLemail",URLemail);
+
+  const baseURL = 
+    process.env.NODE_ENV ==='production'
+    ? "https://mississaugaoldtimers.com/api/players"  
+    : "http://localhost:8080/api/players";
 
 
   const updateGuests = (value) => {
@@ -65,7 +71,7 @@ const Invite = () => {
     try {
       const body = {guests}
       const response = await fetch(
-        `http://localhost:8080/api/players/guests/${email}`,
+        baseURL+`/guests/${email}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -82,7 +88,7 @@ const Invite = () => {
     try {
       const body = {status}
       const response = await fetch(
-        `http://localhost:8080/api/players/${email}`,
+        baseURL+`/${email}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

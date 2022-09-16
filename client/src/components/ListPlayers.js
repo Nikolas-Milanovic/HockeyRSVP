@@ -14,7 +14,7 @@ const ListPlayers = (guests) => {
                 <tr>
                 <th></th>
                 <th>Player</th>
-                <th></th>
+                <th className="spacingContainer"></th>
                 <th>Status</th>
                 </tr>
             </thead>
@@ -25,7 +25,7 @@ const ListPlayers = (guests) => {
                     <th>{player.position}</th>
                     <td className="playerContainer">{player.email}
                         { (player.guests>0)  && <span className="badge badge-info"> + {player.guests} Guests
-                        </span>}
+                        </span>} <div>&nbsp;</div>
                     </td>
                     <td className="spacingContainer"></td>
                     <td>{player.status}</td>

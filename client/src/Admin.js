@@ -6,9 +6,19 @@ const Admin = () => {
   const [email, setEmail] = useState("");
   const [players, setPlayers] = useState([]);
 
+  //NODE_ENV 'developemnt' --> same URL 
+  //NODE_ENV 'production' ---> /api/players
+
+
+  const baseURL = 
+    process.env.NODE_ENV ==='production'
+    ? "https://mississaugaoldtimers.com/api/players"  
+    : "http://localhost:8080/api/players";
+
+  console.log("NODE_ENV",process.env.NODE_ENV);
   const getPlayers = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/players");
+      const response = await fetch(baseURL);
       const jsonData = await response.json();
 
       //console.log(jsonData);
@@ -30,7 +40,7 @@ const Admin = () => {
       const default_status = { status };
       const body = { email, status };
 
-      const response = await fetch("http://localhost:8080/api/players", {
+      const response = await fetch(baseURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

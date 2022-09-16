@@ -3,9 +3,10 @@ import { PlayersContext } from "../PlayersContext.js";
 import SendEmails from "./SendEmails.js";
 
 const ListEmails = (players) => {
-  //const [payment,setPayment] = useState('No');
-
-  //const [message, setMessage] = useState('');
+  const baseURL = 
+    process.env.NODE_ENV ==='production'
+    ? "https://mississaugaoldtimers.com/api/players"  
+    : "http://localhost:8080/api/players";
 
   const handlePaymentChange = async (paid, email) => {
     // access textarea value
@@ -15,7 +16,7 @@ const ListEmails = (players) => {
     try {
       const body = {paid}
       const response = await fetch(
-        `http://localhost:8080/api/players/payment/${email}`,
+        baseURL+`/payment/${email}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -30,7 +31,7 @@ const ListEmails = (players) => {
   const deleteEmail = async (id) => {
       //console.log(id);
     try {
-      const deleteTodo = await fetch(`http://localhost:8080/api/players/${id}`, {
+      const deleteTodo = await fetch(baseURL+`/${id}`, {
         method: "DELETE",
       });
 
@@ -46,7 +47,7 @@ const ListEmails = (players) => {
     try {
       const body = {position}
       const response = await fetch(
-        `http://localhost:8080/api/players/position/${email}`,
+        baseURL+`/position/${email}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

@@ -17,14 +17,19 @@ const History = (displayEdit) => {
     const [whiteWin, setWhiteWin] = useState(false);
     const [tie, setTie] = useState(false);
     
-    
+    const baseURL = 
+    process.env.NODE_ENV ==='production'
+    ? "https://mississaugaoldtimers.com/api/history"  
+    : "http://localhost:8080/api/history";
     
     const getHistory = async () => {
         
         var historyRes;
+        
+
         //Get History Requests from API
         try {
-          const response = await fetch("http://localhost:8080/api/history");
+          const response = await fetch(baseURL);
           const jsonData = await response.json();
     
           //console.log("HISTorY>>>>",jsonData);
@@ -34,11 +39,18 @@ const History = (displayEdit) => {
         } catch (err) {
           console.log(err.message);
         }
+
+        if(historyRes===undefined){
+            console.log("historyRes is undefined");
+            return;
+        }
+        
         console.log("history",historyRes);
 
         //Extract game dates
         var allGameDates =[];
-        for(var i=0;i<historyRes.length;i++){
+        
+        for(var i=0;i<historyRes?.length;i++){
             allGameDates[i]=historyRes[i].date; 
         }
         console.log("allGameDates",allGameDates);
@@ -89,6 +101,8 @@ const History = (displayEdit) => {
                 }
             }
         }
+        //TODO: blank, large number entry
+        //TODO: add beer allocation, total games attened, comments for not attending
 
         console.log("nextGame,",nextGame);
 
@@ -123,7 +137,7 @@ const History = (displayEdit) => {
             const body = {white, black}
             console.log("body",body)
             const response = await fetch(
-              `http://localhost:8080/api/history/${id}`,
+              baseURL+`/${id}`,
               {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -148,7 +162,7 @@ const History = (displayEdit) => {
         /* { !(nextGame===gameDates[0])  && */
         <div className="attendanceStyling">
             <div className="historyOverview">
-                { ( history && nextGame!=history[0].date) && <h5> 
+                { ( history && nextGame!=history[0]?.date) && <h5> 
                     Prev Game:  
                     { (!tie && whiteWin) && <b> (White) {white===null ? "?": white}</b>}
                     { (tie || !whiteWin) && `(White) ` + `${white===null ? "?": white}`} -  
