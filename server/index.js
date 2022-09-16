@@ -12,6 +12,21 @@ app.use(express.json()); //req.body
 
 
 //ROUTES//
+// http://localhost:8080/api/players/authenticate 
+app.post("/api/players/authenticate", async (req,res) => {
+    try{
+        const { enteredPassword } = req.body;
+        if(enteredPassword != process.env.ADMINPASSWORD){
+            console.log("Invalid Credentials");
+            res.json("Invalid Credentials");
+            return; 
+        }
+        console.log("Valid Credentials");
+        res.json("Valid Credentials");
+    }catch(err){
+        console.error(err.message);
+    }
+})
 
 
 //Create new player
@@ -19,9 +34,9 @@ app.post("/api/players", async (req,res) => {
     try{
         const { email } = req.body;
         const { status } = req.body;
-        const  guests  = "0"; 
+        const  guests  = "0";
         const  paid  = "N";
-        const  position  = "player";
+        const  position  = "player 🏒";
         
         const newPlayer = await pool.query("INSERT INTO players (email, status, guests, paid, position) VALUES($1, $2, $3, $4, $5) RETURNING *", 
         [email, status, guests, paid, position]
@@ -69,6 +84,7 @@ app.get("/api/players/:email", async (req,res) =>{
 app.delete("/api/players/:id", async(req,res) => {
     try{
         const {id}= req.params;
+        
         const deletePlayer = await pool.query("DELETE FROM players WHERE player_id = $1", [id]);
 
         res.json("Player was deleted");
@@ -114,6 +130,7 @@ app.put("/api/players/payment/:email", async(req,res) => {
     try{
         const {email} = req.params;
         const {paid} = req.body;
+        
         const updatePLayer = await pool.query(
             "UPDATE players SET paid = $1 WHERE email = $2",
             [paid, email]
@@ -133,7 +150,9 @@ app.put("/api/players/position/:email", async(req,res) => {
             "UPDATE players SET position = $1 WHERE email = $2",
             [position, email]
         );
-        res.json("Players was updated");
+        res.json("Players was updated")
+        console.log("Players was updated ", email, position);
+
     } catch (err){
         console.log(err.message);
     }

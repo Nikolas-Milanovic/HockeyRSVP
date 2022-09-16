@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import Attendance from "./Attendance";
 import {PlayersContext} from "../PlayersContext.js";
 
-const ListPlayers = (guests) => {
+const ListPlayers = () => {
 
     const {players, setPlayers} = useContext(PlayersContext);  
 
@@ -19,7 +19,7 @@ const ListPlayers = (guests) => {
                 </tr>
             </thead>
             { (players != null) &&<tbody>
-                {players.map(player => (
+                {players?.map(player => (
                  <tr key={player.player_id}
                     className={`table-${player.status === "Attending" ? "success" : `${player.status === "Not Attending"? "danger":"secondary"}`}`}>
                     <th>{player.position}</th>

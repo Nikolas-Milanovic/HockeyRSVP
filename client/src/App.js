@@ -49,7 +49,7 @@ function App() {
     <BrowserRouter>
       <Routes>
       
-          <Route path="/" element={<Home/>} />
+          <Route path="/" element={<PlayersContext.Provider value={providerValue}> <Home/> </PlayersContext.Provider>} />
           <Route path="/admin" element={<PlayersContext.Provider value={providerValue}> <Admin/> </PlayersContext.Provider>} />
           <Route path="/invite" element= {  <PlayersContext.Provider value={providerValue}> <Invite/> </PlayersContext.Provider> } />
           

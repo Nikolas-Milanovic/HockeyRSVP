@@ -171,7 +171,7 @@ const Invite = () => {
           </div>
         </div>
         
-        <ListPlayers props={guests}/>
+        <ListPlayers/>
       </div>    
     </div>
   );

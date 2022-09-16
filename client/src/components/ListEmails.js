@@ -1,18 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { PlayersContext } from "../PlayersContext.js";
 import SendEmails from "./SendEmails.js";
 
-const ListEmails = (players) => {
+const ListEmails = () => {
+
+  const {players, setPlayers} = useContext(PlayersContext);
   const baseURL = 
     process.env.NODE_ENV ==='production'
     ? "https://mississaugaoldtimers.com/api/players"  
     : "http://localhost:8080/api/players";
 
-  const handlePaymentChange = async (paid, email) => {
-    // access textarea value
-    //setPayment(labelText);
+  const updatePlayersPaid = (paid,email) => {
+    setPlayers(players => {
+      let data = [...players];
+      let indexOfCurrentPlayer = data.findIndex(player => player.email === email);
 
-   //console.log(paid);
+      data[indexOfCurrentPlayer] = {
+        ...data[indexOfCurrentPlayer], 
+        paid: paid
+      };
+      return data;
+    });
+  };
+
+  const handlePaymentChange = async (paid, email) => {
     try {
       const body = {paid}
       const response = await fetch(
@@ -23,9 +34,18 @@ const ListEmails = (players) => {
           body: JSON.stringify(body)
         }
       );
+      updatePlayersPaid(paid,email);
     } catch (err) {
       console.error(err.message);
     }
+  };
+
+  const updateDeletePlayer = (id) => {
+    setPlayers(players =>
+      players.filter(player => {
+        return player.player_id !== id;
+      }),
+    );
   };
 
   const deleteEmail = async (id) => {
@@ -35,17 +55,35 @@ const ListEmails = (players) => {
         method: "DELETE",
       });
 
-      window.location = `/admin`;
+      updateDeletePlayer(id);
     } catch (err) {
       console.error(err.message);
     }
   };
 
+  const updatePlayersPosition = (email, position) => {
+    console.log("players before",players);
+    setPlayers(players => {
+      let data = [...players];
+      let indexOfCurrentPlayer = data.findIndex(player => player.email === email);
+
+      data[indexOfCurrentPlayer] = {
+        ...data[indexOfCurrentPlayer], 
+        position: position
+      };
+      console.log("this special",data);
+      return data;
+    });
+  };
+
   const changePosition = async (email, position) => {
     console.log("positin change")
-    position = (position === "Player 🏒")? "Goalie 🥅 " : "Player 🏒"
+    console.log("current positon",position);
+    position = (position === "Goalie 🥅")? "Player 🏒": "Goalie 🥅"
+    console.log("current positon",position);
     try {
       const body = {position}
+      console.log(body);
       const response = await fetch(
         baseURL+`/position/${email}`,
         {
@@ -54,10 +92,11 @@ const ListEmails = (players) => {
           body: JSON.stringify(body)
         }
       );
-      window.location = `/admin`;
+      updatePlayersPosition(email,position);
     } catch (err) {
       console.error(err.message);
     }
+    
 };
 
   const yes = "Y";
@@ -76,7 +115,7 @@ const ListEmails = (players) => {
         </tr>
       </thead>
       <tbody>
-        {players.props.map((player) => (
+        {players.map((player) => (
           <tr key={player.player_id} className={`table-${player.status === "Attending" ? "success" : `${player.status === "Not Attending"? "danger":"secondary"}`}`}>
         
             <td>
