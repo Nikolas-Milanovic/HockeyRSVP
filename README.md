@@ -11,9 +11,9 @@ _CUSTOMER JOURNEY_
 
 Once the password is confirmed, admin has access. 
 
-<img width="1182" alt="image" src="https://user-images.githubusercontent.com/59632554/190836512-6dce121a-a0d3-40b8-aae5-526ac7df3b08.png"> 
+<img width="1121" alt="image" src="https://user-images.githubusercontent.com/59632554/190838437-d304c631-7ad4-480a-86a0-31aa71b82def.png">
 
-2) **Admin can then add participants via there email**. Emails are sent to using api call to node js serve and stored in PostgreSQL databse.
+2) **Admin can then add participants via their email**. Emails are sent to using api call to node js serve and stored in PostgreSQL databse.
 
 <img width="1058" alt="image" src="https://user-images.githubusercontent.com/59632554/190836622-06ff9c1b-1fdd-4d13-b1c2-5d1067675ca1.png">
 <img width="1058" alt="image" src="https://user-images.githubusercontent.com/59632554/190836643-12ee0bbf-c5c7-4715-bb53-4c7d733aeab9.png">
@@ -30,7 +30,7 @@ Error dettection will flag emails that are invalid by creaitng a pop up alert:
 
 <img width="468" alt="image" src="https://user-images.githubusercontent.com/59632554/190837654-00aeaa83-2274-48a9-aff1-15a1bb5f847e.png">
 
-4) **Participants then recieve an email with there unqiue URL invite.** This is accomplished using a third party package called EmailJS.
+4) **Participants then recieve an email with their unqiue URL invite.** This is accomplished using a third party package called EmailJS.
 
 <img width="1221" alt="image" src="https://user-images.githubusercontent.com/59632554/190837436-9f681f22-06f8-40a0-90c2-a57302081837.png">
 
