@@ -122,14 +122,12 @@ const History = (displayEdit) => {
         setRecored([whiteWins,whiteLoses,ties,whiteLoses,whiteWins,ties]);
     };
 
-
-
-
     const editPrevGame = async (id) => {
         const white = prompt('Update WHITE Score to: ');
         const black = prompt('Update BLACK Score to: ');
-        if(white ==="" || black ==="" || isNaN(white) || isNaN(black) || white <0 || black <0){
-            alert("Bad Input")
+        if(white===null|| black===null || white ==="" || black ==="" 
+        || isNaN(white) || isNaN(black) || white <0 || black <0 || white.length>2 || black.length>2){
+            alert("❌❌❌ BAD INPUT ❌❌❌")
             return
         }
         try {

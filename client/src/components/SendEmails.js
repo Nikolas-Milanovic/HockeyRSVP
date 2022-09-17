@@ -1,10 +1,12 @@
-import React, { useRef, useState} from 'react';
+import React, { useEffect, useRef, useState} from 'react';
 import emailjs from '@emailjs/browser';
 
 const SendEmail = (players) => {
   const form = useRef();
   const [message, setMessage] = useState('');
+  const [subject, setSubject] = useState('RSVP Saturday Morning Hockey');
 
+  var allEmailsSent=true;
   const baseURL = 
     process.env.NODE_ENV ==='production'
     ? "https://mississaugaoldtimers.com/api"  
@@ -15,20 +17,28 @@ const SendEmail = (players) => {
     setMessage(event.target.value);
   };
 
+  // const successAlert = () => {
+  //   if(allEmailsSent){
+  //     alert('✅✅✅ All emails SUCCESSFULLY sent ✅✅✅')
+  //   }
+  //   allEmailsSent=true;
+  // }
+
   const sendAllEmails = (e) =>{
     e.preventDefault();
-    players.props.props.map( (player) => (
+    players.props.map( (player) => (
         //console.log("WHAT IS GOING ON",message.replace("{{EMAIL}}",player.email)),
         sendEmail(player.email)
         //console.log("sent!")
     ))
+    console.log("ALERT allEmailsSent",allEmailsSent);
   }
 
-  //TODO WHAT IS EFMAIL DOES NOT EXIST 
   const sendEmail = (email) => {
-    const temp = message.replace("{{EMAIL}}","https://mississaugaoldtimers.com/invite/?email="+email)
+    const temp = message.replace("{{invite}}","https://mississaugaoldtimers.com/invite/?email="+email)
     //console.log(temp)
     var templateParams = {
+        subject: subject,
         to_email: email,
         message: temp
     };
@@ -38,7 +48,11 @@ const SendEmail = (players) => {
         console.log('SUCCESS!', response.status, response.text);
      }, function(error) {
         console.log('FAILED...', error);
-        alert('FAILED TO SEND EMAILS...', error);
+        console.log("allEmailsSent",allEmailsSent);
+        allEmailsSent=false;
+        console.log("allEmailsSent",allEmailsSent);
+        console.log("EMAIL",email);
+        alert('❌❌❌ Failed to send email to ' + email +'❌❌❌');
      });
   };
 
@@ -62,34 +76,19 @@ const SendEmail = (players) => {
     setMessage(''); 
   };
 
-  // const addNewGame = async () => {
-  //   try {
-  //     const date = "xx/yy";
-  //     const white = "input";
-  //     const black = "input";
-  //     //onst status = "Attending";
-  //     //const default_status = { status };
-  //     const body = { date, white, black };
-
-  //     const response = await fetch(baseURL+/history", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(body),
-  //     });
-
-  //     //console.log(JSON.stringify(default_status));
-  //     //console.log(JSON.stringify(body));
-  //     //window.location = "/admin";
-  //     //fetch call
-  //   } catch (err) {
-  //     console.error(err.message);
-  //   }
-  // }
-
+ 
 
   return ( 
     <>
     <form>
+      <input
+          type="text"
+          value={subject}
+          className="form-control"
+          placehoder="Subject"
+          onChange={(e) => setSubject(e.target.value)}
+        ></input>
+        <div style={{marginTop: 10}}></div>
         <textarea
         id="message"
         name="message"
@@ -98,7 +97,7 @@ const SendEmail = (players) => {
         >Some text...</textarea>
     </form>
     <div className="container" style={{paddingLeft: 0}}> 
-      <button className="btn btn-primary btn-lg"onClick={(e) => {sendAllEmails(e); clearStatus()}}>Send Emails</button>
+      <button className="btn btn-primary btn-lg"onClick={(e) => {sendAllEmails(e);}}>Send Emails</button>
     </div>
     </>
   );

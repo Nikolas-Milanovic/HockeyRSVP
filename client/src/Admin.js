@@ -90,6 +90,7 @@ const Admin = () => {
 
     //window.location = "/admin";
       updatePlayersList();
+      setEmail("");
     } catch (err) {
       console.log(err.message);
     }
