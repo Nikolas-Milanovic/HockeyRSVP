@@ -26,12 +26,14 @@ const SendEmail = (players) => {
 
   const sendAllEmails = (e) =>{
     e.preventDefault();
-    players.props.map( (player) => (
+    const confirmation = prompt('Are you sure you are ready to send? Type "yes" to continue or "no" to cancel:');
+    if(confirmation==="yes" || confirmation==="yes " || confirmation==="Yes" || confirmation==="Yes "){
+      players.props.map( (player) => (
         //console.log("WHAT IS GOING ON",message.replace("{{EMAIL}}",player.email)),
         sendEmail(player.email)
-        //console.log("sent!")
-    ))
-    console.log("ALERT allEmailsSent",allEmailsSent);
+        //console.log("sent: ",player.email)
+      ))
+    }
   }
 
   const sendEmail = (email) => {
