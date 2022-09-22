@@ -44,7 +44,7 @@ function App() {
   },[]);
 
   return (
-    <div id="backgroundStyle" /*style={ { backgroundImage: `url(${background})`} } */>
+    
       
     <BrowserRouter>
       <Routes>
@@ -55,7 +55,6 @@ function App() {
           
       </Routes>
     </BrowserRouter>
-    </div>
   );
 }
 
