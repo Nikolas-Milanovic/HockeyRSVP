@@ -1,4 +1,4 @@
-# HockeyRSVP
+# HockeyRSVP (https://www.mississaugaoldtimers.com/)
 
 This is a web application I built to assist my father with hosting weekly hockey games. The main objective is to easily track who will be attending this weeks game. This is important as if there are not enough players for this weeks game, players can reach out to friends who may want to join. This is where the guest feature is applicable. Attendees can add up to 4 guests. Along with tracking participant attendance, you can also view and updpdate the previous game scores.  
 
